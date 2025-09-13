@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Notes App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to right, #74ABE2, #5563DE);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            resize: vertical;
+            font-family: monospace;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff7b54;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #ff5722;
+        }
+
+        .notes {
+            margin-top: 20px;
+        }
+
+        .note {
+            background-color: rgba(255,255,255,0.8);
+            color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        footer strong {
+            color: #ffdd57;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Notes App</h1>
+
+        <textarea id="noteInput" placeholder="Write your note here..."></textarea>
+        <br/>
+        <button id="saveBtn">Save Note</button>
+
+        <input type="text" id="searchInput" placeholder="Search notes..." />
+
+        <div class="notes" id="notesContainer"></div>
+    </div>
+
+    <footer>
+        Developed by <strong>Karthik Shet</strong>
+    </footer>
+
+    <script>
+        const noteInput = document.getElementById('noteInput');
+        const saveBtn = document.getElementById('saveBtn');
+        const searchInput = document.getElementById('searchInput');
+        const notesContainer = document.getElementById('notesContainer');
+
+        let notes = [];
+
+        function renderNotes(filteredNotes = null) {
+            const displayNotes = filteredNotes || notes;
+            notesContainer.innerHTML = '';
+            displayNotes.forEach((note, index) => {
+                const noteEl = document.createElement('div');
+                noteEl.className = 'note';
+                noteEl.textContent = note;
+                notesContainer.appendChild(noteEl);
+            });
+        }
+
+        saveBtn.addEventListener('click', () => {
+            const noteText = noteInput.value.trim();
+            if (noteText === "") return alert('Please write a note.');
+            notes.push(noteText);
+            noteInput.value = '';
+            renderNotes();
+        });
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase();
+            const filtered = notes.filter(n => n.toLowerCase().includes(query));
+            renderNotes(filtered);
+        });
+    </script>
+
+</body>
+
+</html>
